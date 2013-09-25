@@ -49,3 +49,7 @@ span {
   font-size: 1.4em;
   cursor: hand;
 }
+
+ul.ui-state-disabled.ui-draggable-disabled { 
+  opacity: 1;
+}
