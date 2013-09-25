@@ -21,15 +21,12 @@ var PostIt = function() {
 
   $(this.$elem).dblclick(function(event) {
     event.stopPropagation();
-    
     $(this).draggable('option', "disabled", true);
-    $('.content').attr('contenteditable', 'true');
   });
 
   $(this.$elem).find('.content').blur(function(event){
     event.stopPropagation();
     $(this).parent().draggable('option', "disabled", false);
-    $(this).find(".content").attr('contenteditable','false');
   });
 
   $(this.$elem).find('.delete').click(function() {

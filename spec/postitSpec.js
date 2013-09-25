@@ -1,7 +1,9 @@
 describe("board", function() {
+  var newBoard;
   
   beforeEach(function(){
     $('body').append("<div id='board'></div>");
+    newBoard = new Board('#board');
   });
 
   afterEach(function() {
@@ -9,51 +11,53 @@ describe("board", function() {
   });
 
   it("new board sets $elem to the passed selector", function() {
-      var newBoard = new Board('#board');
       expect(newBoard.$elem.selector).toBe('#board');
   });
 
-  //   it("responds to addSticky", function() {
-  //     var newBoard = new Board('#board');
-  //     //spyOn(newBoard, "addSticky");
-  //     expect(newBoard.addSticky).toBeDefined();;
-  // });
+    it("responds to addSticky", function() {
+      expect(newBoard.addSticky).toBeDefined();;
+  });
 
     it("creates a new sticky", function() {
-      var newBoard = new Board('#board');
-      newBoard.$elem.click();
-      expect(newBoard.$elem.children('ul').length).toEqual(1);
-  });
+      newBoard.$elem.dblclick();
+      expect(newBoard.$elem.children('ul').length).toBe(1);
+    });
 
     it("creates a new sticky and deletes it", function() {
-      var newBoard = new Board('#board');
-      newBoard.$elem.click();
+      newBoard.$elem.dblclick();
       newBoard.$elem.find('.delete').click();
       expect(newBoard.$elem.children('ul').length).toBe(0);
-  });
+    });
 
 });
 
-// describe("post-it", function() {
+describe("post-it", function() {
 
-//   beforeEach(function(){
-//     $('body').css("id", "board");
-//   });
+  beforeEach(function(){
+    $('body').append("<div id='board'></div>");
+    newBoard = new Board('#board');
+    newBoard.$elem.dblclick();
+  });
 
-//   it("is draggable", function() {
-//     var newBoard = new Board('#board');
-//     $('body').click();
-//     console.log($('body').children('ul').first().attr('class'))
-//     expect($('body').children('ul').first().attr('class')).toEqual("post-it ui-draggable");
-//   });
+  afterEach(function() {
+    $("#board").remove();
 
-//     it("is editable", function() {
-//     var newBoard = new Board('#board');
-//     $('body').click();
-//     $('.content').click();
-//     expect($('body').children('ul').first().attr('class')) == ("post-it ui-draggable");
-//   });
-// });
+  });
+
+  it("is draggable", function() { 
+    expect(newBoard.$elem.children('ul').first().attr('class')).toEqual("post-it ui-draggable");
+  });
+
+  it("is editable", function() {
+    expect(newBoard.$elem.find("ul li:nth-child(2)").attr('contenteditable')).toEqual("true");
+  });
+
+  it("disables draggable when editing", function() {
+    newBoard.$elem.find("ul li:nth-child(2)").dblclick();
+    expect(newBoard.$elem.find('ul').hasClass("ui-draggable-disabled")).toBe(true);
+  });
+
+});
 
 
 
